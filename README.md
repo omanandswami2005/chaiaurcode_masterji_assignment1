@@ -1,19 +1,17 @@
-Sure, I can help you create a README file for your project. Please provide me with the necessary screenshots and any additional details you'd like to include. Meanwhile, here's a draft of the README file:
-
----
-
-# MasterJi React Project
+# MasterJi (Assignment 1) React Project !
 
 This project implements three tasks based on provided Figma designs using React. The tasks include an OTP form, a drag-and-drop course card list, and a data table.
+
+## [Live Website is Here 📎](https://masterjiassignment1.onrender.com)
 
 ## Table of Contents
 
 1. [Project Structure](#project-structure)
 2. [Setup Instructions](#setup-instructions)
 3. [Task Details](#task-details)
-   - [OTP Form](#otp-form)
-   - [Drag and Drop Course Cards](#drag-and-drop-course-cards)
-   - [Data Table](#data-table)
+    - [OTP Form](#otp-form)
+    - [Drag and Drop Course Cards](#drag-and-drop-course-cards)
+    - [Data Table](#data-table)
 4. [Routing](#routing)
 5. [Branding Logo](#branding-logo)
 6. [Screenshots](#screenshots)
@@ -32,8 +30,8 @@ This project implements three tasks based on provided Figma designs using React.
 │   │   ├── CourseList.js
 │   │   ├── DataTable.js
 │   │   └── ...
-│   ├── App.js
-│   ├── index.js
+│   ├── main.js
+│   ├── index.html
 │   └── ...
 ├── README.md
 └── package.json
@@ -42,22 +40,22 @@ This project implements three tasks based on provided Figma designs using React.
 ## Setup Instructions
 
 1. Clone the repository:
+    ```bash
+    git clone https://github.com/omanandswami2005/chaiaurcode_masterji_assignment1.git
+    cd chaiaurcode_masterji_assignment1
+    ```
 
-   ```bash
-   git clone https://github.com/your-username/masterji-react-project.git
-   cd masterji-react-project
-   ```
 2. Install dependencies:
+    ```bash
+    npm install
+    ```
 
-   ```bash
-   npm install
-   ```
 3. Start the development server:
+    ```bash
+    npm start
+    ```
 
-   ```bash
-   npm start
-   ```
-4. Open [http://localhost:3000](http://localhost:3000) in your browser to view the project.
+4. Open [http://localhost:5173](http://localhost:5173) in your browser to view the project.
 
 ## Task Details
 
@@ -65,7 +63,7 @@ This project implements three tasks based on provided Figma designs using React.
 
 - **Empty Form State:** A form to input a 4-digit OTP.
 - **Filling State:** The state during the input of the OTP.
-- **Filled State (Success):** The state when the OTP is correctly filled.
+- **Filled State (Success):** The state when the OTP is correctly filled (1234 is VALID OTP).
 - **Filled State (Error):** The state when the OTP is incorrectly filled.
 
 ### Drag and Drop Course Cards
@@ -95,25 +93,21 @@ The branding logo is positioned in the bottom right corner for all tasks. Clicki
 ## Screenshots
 
 ### OTP Form
+![Screenshot 2024-07-26 001155](https://github.com/user-attachments/assets/f4c4becc-61e6-467d-b17f-2d5b7bd589a1)
 
-![OTP Form](path/to/screenshot-otp-form.png)
 
 ### Drag and Drop Course Cards
+![Screenshot 2024-07-26 001226](https://github.com/user-attachments/assets/4f37d54d-8d02-4949-8dfc-83af74c8748c)
 
-![Course List](path/to/screenshot-course-list.png)
 
 ### Data Table
-
-![Data Table](path/to/screenshot-data-table.png)
+![Screenshot 2024-07-26 001250](https://github.com/user-attachments/assets/ea9abc30-00cd-40d2-866b-2feb9b0023e9)
 
 ## Technologies Used
 
-- React
+- React + vite
 - React Router
-- Drag-and-Drop Library (e.g., `react-beautiful-dnd`)
-- Axios (for any API calls)
-- CSS Modules / Styled Components
+- Drag-and-Drop Library (e.g., `react-dnd`)
+- Tailwind CSS
 
----
-
-Feel free to customize this README further based on your specific project details and the screenshots you provide.
+# Thank You @hitesh Sir 😀 !
