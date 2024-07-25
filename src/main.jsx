@@ -93,7 +93,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Navigate to="/otp-form" />} />
+        <Route path="/" index element={<Navigate to="/otp-form" />} />
         <Route path="/otp-form" element={<OTPForm />} />
         <Route path="course-list" element={<CourseList />} />
         <Route path="batches" element={<DataTable data={batchesData} />} />
