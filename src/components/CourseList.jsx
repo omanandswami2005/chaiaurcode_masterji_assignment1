@@ -1,13 +1,8 @@
 // src/components/CourseList.jsx
 import { useState } from "react";
-import { DndContext, closestCenter } from "@dnd-kit/core";
-import {
-  arrayMove,
-  SortableContext,
-  useSortable,
-  verticalListSortingStrategy,
-} from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
+import { useDrag, useDrop, DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
+
 import {
   Menu,
   MenuButton,
@@ -15,6 +10,7 @@ import {
   MenuItem,
   Transition,
 } from "@headlessui/react";
+
 import { MdDragIndicator } from "react-icons/md";
 import { FaArrowUp } from "react-icons/fa6";
 import { FaArrowDown } from "react-icons/fa6";
@@ -62,6 +58,9 @@ const initialItems = [
   },
 ];
 
+const ItemType = "ITEM";
+
+
 const SortableItem = ({
   id,
   thumbnail,
@@ -72,20 +71,24 @@ const SortableItem = ({
   moveItem,
   deleteItem,
 }) => {
-  const { attributes, listeners, setNodeRef, transform, transition } =
-    useSortable({ id });
+  const [, ref] = useDrag({
+    type: ItemType,
+    item: { id, index },
+  });
 
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-  };
+  const [, drop] = useDrop({
+    accept: ItemType,
+    hover: (draggedItem) => {
+      if (draggedItem.index !== index) {
+        moveItem(draggedItem.index, index);
+        draggedItem.index = index;
+      }
+    },
+  });
 
   return (
-    <li
-      ref={setNodeRef}
-      style={style}
-      {...attributes}
-      {...listeners}
+    <div
+    ref={(node) => ref(drop(node))}
       className="flex items-center justify-between p-2 mb-2  rounded shadow-lg min-w-52 "
     >
       <div className="flex items-center flex-auto">
@@ -139,8 +142,8 @@ const SortableItem = ({
                 <MenuItem>
                   {({ active }) => (
                     <button
-                      onClick={() => moveItem(index, -1)}
-                      disabled={index === 0}
+                    onClick={() => moveItem(index, index - 1)}
+                        disabled={index === 0}
                       className={`${active ? "bg-gray-100 text-gray-900" : "text-gray-700"} group flex rounded-md items-center w-full px-2 py-2 text-sm`}
                     >
                       <FaArrowUp color="#000" /> &nbsp; Move To Top
@@ -150,7 +153,7 @@ const SortableItem = ({
                 <MenuItem>
                   {({ active }) => (
                     <button
-                      onClick={() => moveItem(index, 1)}
+                    onClick={() => moveItem(index, index + 1)}
                       disabled={index === initialItems.length - 1}
                       className={`${active ? "bg-gray-100 text-gray-900" : "text-gray-700"} group flex rounded-md items-center w-full px-2 py-2 text-sm`}
                     >
@@ -161,7 +164,7 @@ const SortableItem = ({
                 <MenuItem>
                   {({ active }) => (
                     <button
-                      onClick={() => deleteItem(index)}
+                    onClick={() => deleteItem(id)}
                       className={`${active ? "bg-gray-100 text-red-500" : "text-red-500"} group flex rounded-md items-center w-full px-2 py-2 text-sm`}
                     >
                       <RiDeleteBinLine />
@@ -174,40 +177,23 @@ const SortableItem = ({
           </Transition>
         </Menu>
       </div>
-    </li>
+    </div>
+
   );
 };
 
 const CourseList = () => {
   const [items, setItems] = useState(initialItems);
 
-  const handleDragEnd = (event) => {
-    const { active, over } = event;
-
-    if (active.id !== over.id) {
-      setItems((items) => {
-        const oldIndex = items.findIndex((item) => item.id === active.id);
-        const newIndex = items.findIndex((item) => item.id === over.id);
-        return arrayMove(items, oldIndex, newIndex);
-      });
-    }
+ const moveItem = (fromIndex, toIndex) => {
+    const updatedItems = [...items];
+    const [movedItem] = updatedItems.splice(fromIndex, 1);
+    updatedItems.splice(toIndex, 0, movedItem);
+    setItems(updatedItems);
   };
 
-  const moveItem = (index, direction) => {
-    setItems((items) => {
-      const newItems = [...items];
-      const [movedItem] = newItems.splice(index, 1);
-      newItems.splice(index + direction, 0, movedItem);
-      return newItems;
-    });
-  };
-
-  const deleteItem = (index) => {
-    setItems((items) => {
-      const newItems = [...items];
-      newItems.splice(index, 1);
-      return newItems;
-    });
+  const deleteItem = (id) => {
+    setItems(items.filter((item) => item.id !== id));
   };
 
   return (
@@ -220,31 +206,39 @@ const CourseList = () => {
         <p className="px-4 pb-4 text-gray-600">
           Change orders of the products based on priority
         </p>
-        <DndContext
-          collisionDetection={closestCenter}
-          onDragEnd={handleDragEnd}
-        >
-          <SortableContext items={items} strategy={verticalListSortingStrategy}>
-            <ul className="p-4">
-              {items.map((item, index) => (
-                <SortableItem
-                  key={item.id}
-                  id={item.id}
-                  thumbnail={item.thumbnail}
-                  name={item.name}
-                  price={item.price}
-                  type={item.type}
-                  index={index}
-                  moveItem={moveItem}
-                  deleteItem={deleteItem}
-                />
-              ))}
-            </ul>
-          </SortableContext>
-        </DndContext>
+        <DndProvider backend={HTML5Backend}>
+      <div className="p-4">
+        {items.map((item, index) => (
+          <SortableItem
+            key={item.id}
+            id={item.id}
+            thumbnail={item.thumbnail}
+            name={item.name}
+            price={item.price}
+            type={item.type}
+            index={index}
+            moveItem={moveItem}
+            deleteItem={deleteItem}
+          />
+        ))}
       </div>
+    </DndProvider>
+      </div>
+      <a
+      href="https://chaicode.com"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="fixed bottom-4 right-4"
+    >
+      <img
+        src="/chaiaurcode.png"
+        alt="Chai Code"
+        className="w-20 h-20 rounded-lg"
+      />
+    </a>
     </div>
   );
 };
 
 export default CourseList;
+

@@ -60,9 +60,18 @@ const OTPForm = () => {
           Didn&apos;t receive code? <span className="text-sky-950 cursor-pointer">Resend</span>
         </p>
       </form>
-      <a href="https://chaicode.com" target="_blank" rel="noopener noreferrer" className="absolute bottom-4 right-4">
-        <img src="/chaiaurcode.png" alt="Chai Code" className="w-20 h-20 rounded-lg" />
-      </a>
+      <a
+      href="https://chaicode.com"
+      target="_blank"
+      rel="noopener noreferrer"
+      className="fixed bottom-4 right-4"
+    >
+      <img
+        src="/chaiaurcode.png"
+        alt="Chai Code"
+        className="w-20 h-20 rounded-lg"
+      />
+    </a>
     </div>
   );
 };
